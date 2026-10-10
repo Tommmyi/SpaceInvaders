@@ -1,0 +1,12 @@
+# Escludi la cartella dei file compilati da Eclipse
+bin/
+
+# Escludi i file di configurazione specifici di Eclipse
+.metadata/
+.classpath
+.project
+.settings/
+
+# Escludi file temporanei del sistema operativo
+.DS_Store
+Thumbs.db
