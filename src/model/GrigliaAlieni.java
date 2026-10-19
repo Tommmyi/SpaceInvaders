@@ -53,24 +53,7 @@ public class GrigliaAlieni extends OggettoDiGioco{
 		}		
 	}
 	
-	public void muovi(double larghezzaCampo) {		
-		
-		if(this.toccaBordo(larghezzaCampo)) {   																				
-			this.direzione = (this.direzione==Direzione.DESTRA) ? Direzione.SINISTRA : Direzione.DESTRA;
-			this.scendi();
-		}else {
-			for(List<Alieno> lista : this.griglia) {					
-				for(Alieno a : lista) {
-					if(a.getStatoVita()){
-						double spostamento = (this.direzione == Direzione.DESTRA) ? this.velocita : -this.velocita;
-						a.sposta(spostamento, 0);
-					}
-				}
-			}
-		}		
-	}
-	
-	public void scendi() {
+	private void scendi() {
 		
 		for(List<Alieno> lista : this.griglia) {
 			for(Alieno a : lista) {
@@ -81,7 +64,7 @@ public class GrigliaAlieni extends OggettoDiGioco{
 		}		
 	}
 	
-	public boolean toccaBordo(double larghezzaCampo) {	
+	private boolean toccaBordo(double larghezzaCampo) {	
 		
 		boolean toccato = false;
 		
@@ -99,6 +82,25 @@ public class GrigliaAlieni extends OggettoDiGioco{
 	    }		
 		return toccato;		
 	}
+	
+	public void muovi(double larghezzaCampo) {		
+		
+		if(this.toccaBordo(larghezzaCampo)) {   																				
+			this.direzione = (this.direzione==Direzione.DESTRA) ? Direzione.SINISTRA : Direzione.DESTRA;
+			this.scendi();
+		}else {
+			for(List<Alieno> lista : this.griglia) {					
+				for(Alieno a : lista) {
+					if(a.getStatoVita()){
+						double spostamento = (this.direzione == Direzione.DESTRA) ? this.velocita : -this.velocita;
+						a.sposta(spostamento, 0);
+					}
+				}
+			}
+		}		
+	}
+	
+	
 	
 	public boolean raggiungeFondo(double fondoY) {
 		
