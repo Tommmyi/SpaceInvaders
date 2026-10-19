@@ -6,11 +6,10 @@ public class Scudo extends OggettoDiGioco{
 	private static final double ALTEZZA = 40;
 	private static final double RESISTENZA = 10.0;
 	
-	private Punto2D punto;
 	private double vitaScudo ;
 	
 	public Scudo(Punto2D punto ) {		
-		super(null, ALTEZZA, LARGHEZZA);
+		super(punto, ALTEZZA, LARGHEZZA);
 		this.vitaScudo=RESISTENZA;
 	}
 	public void danneggia() {
