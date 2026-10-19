@@ -1,31 +1,26 @@
 package model;
 
 public class Giocatore extends OggettoDiGioco {
+	
+	private static final double LARGHEZZA_GIOCATORRE = 40;
+	private static final double ALTEZZA = 30;
+	private static final double VELOCITA = 10;	
     private int vite;
-    private double velocità;
-    public Giocatore(Punto2D posizione, double larghezza, double altezza, int viteIniziali) {
-        super(posizione, larghezza, altezza);
-        this.vite = viteIniziali;
-        this.velocità=5.0;
+    
+    public Giocatore(Punto2D posizione, int numVite) {
+        super(posizione, LARGHEZZA_GIOCATORRE, ALTEZZA);
+        this.vite = numVite;
     }
 
     public void muoviSinistra() {
-    	double nuovaX = this.getPosizione().getX() - this.velocità;
+    	double nuovaX = this.getPosizione().getX() - VELOCITA;
         this.getPosizione().setX(nuovaX);
     }
 
     public void muoviDestra() {
-    	double nuovaX = this.getPosizione().getX() + this.velocità;
+    	double nuovaX = this.getPosizione().getX() + VELOCITA;
     	this.getPosizione().setX(nuovaX);
     }
-
-    /*public ProiettileGiocatore spara() {
-        return null; // Sostituire con il proiettile effettivo
-    }
-
-    public boolean puoSparare() {
-        return true; 
-    }*/
 
     public void perdiVita() {
         this.vite--;
