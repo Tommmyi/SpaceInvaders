@@ -14,6 +14,14 @@ public class OggettoDiGioco {
 		this.vivo=true;
 	}
 	
+	public double getLarghezza() {
+		return this.larghezza;
+	}
+	
+	public double getAltezza() {
+		return this.altezza;
+	}
+	
 	public double getArea() {
 		return this.altezza*this.larghezza;
 	}
@@ -24,6 +32,10 @@ public class OggettoDiGioco {
 	
 	public Punto2D getPosizione() { 
 		return this.posizione;
+	}
+	
+	public void setPosizione(Punto2D nuovoPunto) {
+		this.posizione = nuovoPunto;
 	}
 	
 	public boolean interseca(OggettoDiGioco ogg) {

@@ -2,10 +2,13 @@ package model;
 
 public class Alieno extends OggettoDiGioco{
 	
-	private TipoAlieno tipo;
+	public static final double LARGHEZZA_ALIENO = 40;
+	public static final double ALTEZZA_ALIENO = 30;
 	
+	private TipoAlieno tipo;
+
 	public Alieno(Punto2D posizione, TipoAlieno tipo) {
-		super(posizione, tipo.getLarghezza(), tipo.getAltezza());
+		super(posizione, LARGHEZZA_ALIENO, ALTEZZA_ALIENO);
 		this.tipo = tipo;
 	}
 	
@@ -15,6 +18,10 @@ public class Alieno extends OggettoDiGioco{
 	
 	public TipoAlieno getTipo() {
 		return this.tipo;
+	}
+	
+	public void sposta(double spostamentoX, double spostamentoY) {
+		this.setPosizione(new Punto2D(this.getPosizione().getX()+spostamentoX, this.getPosizione().getY()+spostamentoY));
 	}
 	
 	public boolean puoSparare() {				
