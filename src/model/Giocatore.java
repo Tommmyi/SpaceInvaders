@@ -2,8 +2,9 @@ package model;
 
 public class Giocatore extends OggettoDiGioco {
 	
-	private static final double LARGHEZZA_GIOCATORRE = 40;
-	private static final double ALTEZZA = 30;
+	public static final double LARGHEZZA_GIOCATORRE = 40;
+	public static final double ALTEZZA = 30;
+	
 	private static final double VELOCITA = 10;	
     private int vite;
     
@@ -31,5 +32,10 @@ public class Giocatore extends OggettoDiGioco {
 
     public int getVite() {
         return vite;
+    }
+    
+    public void azzeraVite() {
+    	this.vite = 0;
+    	this.distruggi();
     }
 }
