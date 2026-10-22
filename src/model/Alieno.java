@@ -5,11 +5,20 @@ public class Alieno extends OggettoDiGioco{
 	public static final double LARGHEZZA_ALIENO = 40;
 	public static final double ALTEZZA_ALIENO = 30;
 	
-	private TipoAlieno tipo;
+	private TipoAlieno tipo;	
+	private int vitaAlieno;		//
 
 	public Alieno(Punto2D posizione, TipoAlieno tipo) {
 		super(posizione, LARGHEZZA_ALIENO, ALTEZZA_ALIENO);
 		this.tipo = tipo;
+		this.vitaAlieno = this.tipo.getVita();
+	}
+	
+	public void danneggia() {
+		this.vitaAlieno--;
+		if(this.vitaAlieno<=0) {
+			this.distruggi();
+		}
 	}
 	
 	public double getPunti() {
