@@ -22,10 +22,10 @@ public class GrigliaAlieni extends OggettoDiGioco{
 	private double velocita;			//velocità effettiva della griglia che aumenterà ad ogni nuova "orda"
 	private List<List<Alieno>> griglia;	
 	
-	public GrigliaAlieni(Difficolta diff) {
+	public GrigliaAlieni(Difficolta diff, int ondata) {
 		super(POSIZIONE_PARTENZA, LARGHEZZA, ALTEZZA);
 		this.direzione = Direzione.DESTRA;
-		this.velocita = VELOCITA_PARTENZA;
+		this.velocita = VELOCITA_PARTENZA + ondata;
 		this.griglia = new ArrayList<>();		
 		for(int a=1; a<=RIGHE; a++) {					//5
 			List<Alieno> rigaAlieni = new ArrayList<Alieno>();
@@ -139,7 +139,12 @@ public class GrigliaAlieni extends OggettoDiGioco{
 			}
 		}	
 		return true;
-	}		 
+	}		
+	
+	public List<List<Alieno>> getGriglia(){
+		List<List<Alieno>> grigliaPassata = this.griglia;
+		return grigliaPassata;
+	}
 }
 
 
