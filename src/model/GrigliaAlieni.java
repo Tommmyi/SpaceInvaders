@@ -118,7 +118,7 @@ public class GrigliaAlieni extends OggettoDiGioco{
 		return raggiunto;
 	}
 	
-	public Alieno scegliTiratore() {
+	public Optional<Alieno> scegliTiratore() {
 		
 		int capacita=0;
 		Random rnd = new Random();
@@ -127,7 +127,8 @@ public class GrigliaAlieni extends OggettoDiGioco{
 				.toList();
 		capacita=listaTiratori.size();		
 		int tiratore = rnd.nextInt(capacita);		
-		return listaTiratori.get(tiratore);
+		return Optional.of(listaTiratori.get(tiratore));
+		//return listaTiratori.get(tiratore);
 	}
 	
 	public boolean isDistrutta() {

@@ -1,6 +1,7 @@
 package model;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 public class Gioco {
 	
 	public static final double LARGHEZZA_CAMPO = 800;
@@ -96,8 +97,8 @@ public class Gioco {
 	private void fuocoAlieno() {
 		this.tickDaUltimoSparo++;
 		if(this.tickDaUltimoSparo >= TICK_FRA_SPARI/difficolta.getFrequenzaFuocoNemici()) {
-			Alieno tiratore = this.miaGriglia.scegliTiratore();
-			this.spariNemico.add(tiratore.spara(this.difficolta.getVelocitaProiettiliNemici()));
+			Optional<Alieno> tiratore = this.miaGriglia.scegliTiratore();
+			this.spariNemico.add(tiratore.get().spara(this.difficolta.getVelocitaProiettiliNemici()));
 			tickDaUltimoSparo=0;
 		}
 			
@@ -135,12 +136,36 @@ public class Gioco {
 		}
 	}
 	
+	// ---------- Comandi (chiamati dal controller) ----------
+    public void muoviGiocatoreSinistra() {
+        if (stato == StatoGioco.IN_GIOCO && mioGiocatore.getPosizione().getX() > 0) {
+        	mioGiocatore.muoviSinistra();
+        }
+    }
+
+    public void muoviGiocatoreDestra() {
+        if (stato == StatoGioco.IN_GIOCO
+                && mioGiocatore.getPosizione().getX() + mioGiocatore.getLarghezza() < LARGHEZZA_CAMPO) {
+        	mioGiocatore.muoviDestra();
+        }
+    }
+	
+	public void sparaGiocatore() {
+	    if (this.stato == StatoGioco.IN_GIOCO && this.spariGiocatore.isEmpty()) {
+	        this.spariGiocatore.add(this.mioGiocatore.spara());
+	    }
+	}
+	
+	
 	//getter:
 	public int getPunteggio() {
 		return this.punteggio;
 	}	
 	public int getRecord() {
 		return this.record;
+	}
+	public int getOndate() {	//
+		return this.ondate;
 	}
 	public int getViteGiocatore() {
 		return this.viteGiocatore;
@@ -155,7 +180,10 @@ public class Gioco {
 		/*List<Scudo> lista = this.scudi;
 		return lista;*/
 		return this.scudi;
-	}	
+	}
+	public StatoGioco getStato() {
+		return this.stato;
+	}
 	public List<ProiettileNemico> getSpariNemici(){
 		/*List<ProiettileNemico> lista = this.spariNemico;
 		return lista;*/

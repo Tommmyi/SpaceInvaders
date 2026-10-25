@@ -24,8 +24,4 @@ public class Scudo extends OggettoDiGioco{
 		this.vitaScudo = 0;
 		this.distruggi();
 	}
-	
-	/*public boolean isDistrutto() {
-		return this.vitaScudo == 0;
-	}*/
 }
