@@ -2,9 +2,9 @@ package model;
 
 public class ProiettileGiocatore extends Proiettile{
 	
-	private static final double VELOCITA_PROIETTILE_GIOCATORE = 5;
-	private static final double LARGHEZZA = 6;
-    private static final double ALTEZZA = 16;
+	public static final double VELOCITA_PROIETTILE_GIOCATORE = 5;
+	public static final double LARGHEZZA = 6;
+    public static final double ALTEZZA = 16;
 	
 	public ProiettileGiocatore(Punto2D posizione) {
 		super(posizione, LARGHEZZA, ALTEZZA, VELOCITA_PROIETTILE_GIOCATORE );

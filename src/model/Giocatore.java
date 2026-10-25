@@ -38,4 +38,12 @@ public class Giocatore extends OggettoDiGioco {
     	this.vite = 0;
     	this.distruggi();
     }
+    
+    public ProiettileGiocatore spara() {
+        Punto2D partenza = new Punto2D(
+            getPosizione().getX() + LARGHEZZA_GIOCATORRE / 2 - ProiettileGiocatore.LARGHEZZA / 2,
+            getPosizione().getY());
+        return new ProiettileGiocatore(partenza);
+    }
+    
 }
