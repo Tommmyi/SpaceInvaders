@@ -1,20 +1,23 @@
 package model;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 public class Gioco {
 	
+	public static final int VITE_FACILE_NORMALE = 3;
+	public static final int VITE_DIFFICILE = 1;
 	public static final double LARGHEZZA_CAMPO = 800;
 	public static final double ALTEZZA_CAMPO = 600;
     private static final double MARGINE_FONDO = 30;
+    private static final int TICK_FRA_SPARI_GIOCATORE = 20;
     
     private static final double TICK_FRA_SPARI = 60;	//Num di tick fra lo uno sparo di un alieno all'altro
     private static final int NUM_SCUDI = 4;
-    //private static final int NUM_VITE = 3;
+ 
 
     private int ondate;
     
-    private int viteGiocatore;
 	private int punteggio;								
 	private int record;
 	private StatoGioco stato;							
@@ -25,6 +28,8 @@ public class Gioco {
     private GrigliaAlieni miaGriglia;
     private List<ProiettileGiocatore> spariGiocatore;
     private List<ProiettileNemico> spariNemico;
+    private int viteGiocatore;
+    private int tickDaUltimoSparoGiocatore;
     
     private GestoreCollisioni gestoreCollisioni;
     private int tickDaUltimoSparo;	//Quanti tick di timer dall'ultimo sparo di un alieno
@@ -32,24 +37,28 @@ public class Gioco {
 	public Gioco() {
 		this.stato = StatoGioco.MENU;
 		this.record=0;
+		this.gestoreCollisioni = new GestoreCollisioni();
+		this.scudi=new ArrayList<>();
+		this.spariGiocatore=new ArrayList<>();
+		this.spariNemico=new ArrayList<>();
 	}
 	
 	public void avvia(Difficolta difficolta) {
 		
-		this.difficolta = difficolta;
+		this.difficolta = Objects.requireNonNull(difficolta); //la difficoltà non può essere null
 		this.tickDaUltimoSparo = 0;
-		this.punteggio=0;
-		//this.record=0;		
+		this.punteggio=0;		
 		this.ondate=0;
-		this.viteGiocatore = (this.difficolta == Difficolta.DIFFICILE)? 1 : 3;	//assegno il numero di vite in base alla difficoltà
+		this.viteGiocatore = (this.difficolta == Difficolta.DIFFICILE)? VITE_DIFFICILE : VITE_FACILE_NORMALE;	//assegno il numero di vite in base alla difficoltà
+		this.tickDaUltimoSparoGiocatore = TICK_FRA_SPARI_GIOCATORE;
 		
-		double xGiocatore = (LARGHEZZA_CAMPO-Giocatore.LARGHEZZA_GIOCATORRE)/2;
+		double xGiocatore = (LARGHEZZA_CAMPO-Giocatore.LARGHEZZA_GIOCATORE)/2;
 		double yGiocatore = ALTEZZA_CAMPO-Giocatore.ALTEZZA-MARGINE_FONDO;
 		this.mioGiocatore = new Giocatore(new Punto2D(xGiocatore, yGiocatore), viteGiocatore);		
 		this.miaGriglia = new GrigliaAlieni(difficolta, this.ondate);		
 		this.scudi = new ArrayList<>();
 		double passo = LARGHEZZA_CAMPO/NUM_SCUDI;	//distanza fra gli scudi
-		for(int a=0; a<=NUM_SCUDI; a++) {
+		for(int a=0; a<NUM_SCUDI; a++) {
 			double xScudo = (passo*a)+(passo-Scudo.LARGHEZZA)/2; 	//va a centrare ogni scudo nella sua parte di schermo
 			this.scudi.add(new Scudo(new Punto2D(xScudo, Scudo.Y_SCUDO)));
 		}	
@@ -63,6 +72,7 @@ public class Gioco {
 		
 		if(this.stato != StatoGioco.IN_GIOCO)
 			return;
+		this.tickDaUltimoSparoGiocatore++;
 		
 		//muove gli alieni ed i proiettili già esistenti:
 		this.movimenti();
@@ -71,7 +81,6 @@ public class Gioco {
 		this.fuocoAlieno();
 		
 		//gestisco le collisioni:
-		this.gestoreCollisioni = new GestoreCollisioni();
 		gestoreCollisioni.risolvi(this);
 		
 		//pulisco le liste:
@@ -96,24 +105,18 @@ public class Gioco {
 	
 	private void fuocoAlieno() {
 		this.tickDaUltimoSparo++;
-		if(this.tickDaUltimoSparo >= TICK_FRA_SPARI/difficolta.getFrequenzaFuocoNemici()) {
+		if(this.tickDaUltimoSparo >= TICK_FRA_SPARI/this.difficolta.getFrequenzaFuocoNemici()) {
 			Optional<Alieno> tiratore = this.miaGriglia.scegliTiratore();
-			this.spariNemico.add(tiratore.get().spara(this.difficolta.getVelocitaProiettiliNemici()));
-			tickDaUltimoSparo=0;
+			tiratore.ifPresent(a -> this.spariNemico.add(a.spara(this.difficolta.getVelocitaProiettiliNemici())));
+			this.tickDaUltimoSparo = 0;
 		}
-			
+
 	}
 	
 	
 	private void pulisciListeProiettili() {
-		for(Proiettile p : this.spariNemico) {
-			if( !p.getStatoVita() || p.getPosizione().getY()>ALTEZZA_CAMPO)
-				this.spariNemico.remove(p);
-		}
-		for(Proiettile p : this.spariGiocatore) {
-			if( !p.getStatoVita() || p.getPosizione().getY()<0 )
-				this.spariNemico.remove(p);
-		}
+		this.spariNemico.removeIf(p -> !p.getStatoVita() || p.getPosizione().getY() > ALTEZZA_CAMPO);
+		this.spariGiocatore.removeIf(p -> !p.getStatoVita() || p.getPosizione().getY() < 0);
 	}
 	
 	
@@ -127,7 +130,7 @@ public class Gioco {
 	
 	private void finePartita() {
 		if(!this.mioGiocatore.getStatoVita() || this.miaGriglia.raggiungeFondo(this.mioGiocatore.getPosizione().getY())) {
-			if(this.record > this.punteggio) {
+			if(this.punteggio > this.record) {
 				this.record = this.punteggio;
 				this.stato = StatoGioco.VITTORIA;
 			}else {
@@ -136,24 +139,36 @@ public class Gioco {
 		}
 	}
 	
-	// ---------- Comandi (chiamati dal controller) ----------
-    public void muoviGiocatoreSinistra() {
-        if (stato == StatoGioco.IN_GIOCO && mioGiocatore.getPosizione().getX() > 0) {
-        	mioGiocatore.muoviSinistra();
-        }
-    }
+	//Metodi per le azioni del giocatore(chiamate dal controller)
+	public void muoviGiocatoreSinistra() {
+	    this.muoviGiocatore(Direzione.SINISTRA);
+	}
 
-    public void muoviGiocatoreDestra() {
-        if (stato == StatoGioco.IN_GIOCO
-                && mioGiocatore.getPosizione().getX() + mioGiocatore.getLarghezza() < LARGHEZZA_CAMPO) {
-        	mioGiocatore.muoviDestra();
-        }
-    }
+	public void muoviGiocatoreDestra() {
+	    this.muoviGiocatore(Direzione.DESTRA);
+	}
+
+	private void muoviGiocatore(Direzione direzione) {
+	    if(this.stato != StatoGioco.IN_GIOCO)
+	        return;
+
+	    if(direzione == Direzione.SINISTRA)
+	        this.mioGiocatore.muoviSinistra();
+	    else
+	        this.mioGiocatore.muoviDestra();
+
+	    // il giocatore non può uscire dal campo
+	    Punto2D posizione = this.mioGiocatore.getPosizione();
+	    double xMassima = LARGHEZZA_CAMPO - this.mioGiocatore.getLarghezza();
+	    posizione.setX(Math.max(0, Math.min(posizione.getX(), xMassima)));
+	}
 	
-	public void sparaGiocatore() {
-	    if (this.stato == StatoGioco.IN_GIOCO && this.spariGiocatore.isEmpty()) {
-	        this.spariGiocatore.add(this.mioGiocatore.spara());
-	    }
+	public boolean sparaGiocatore() {	
+		if(this.stato != StatoGioco.IN_GIOCO || this.tickDaUltimoSparoGiocatore < TICK_FRA_SPARI_GIOCATORE)
+			return false;
+		this.spariGiocatore.add(this.mioGiocatore.spara());
+		this.tickDaUltimoSparoGiocatore = 0;
+		return true;
 	}
 	
 	
@@ -164,11 +179,15 @@ public class Gioco {
 	public int getRecord() {
 		return this.record;
 	}
-	public int getOndate() {	//
+	public Difficolta getDifficolta() {
+		return this.difficolta;
+	}
+
+	public int getOndate() {	
 		return this.ondate;
 	}
 	public int getViteGiocatore() {
-		return this.viteGiocatore;
+		return (this.mioGiocatore == null)? 0 : this.mioGiocatore.getVite();
 	}
 	public Giocatore getGiocatore() {
 		return this.mioGiocatore;
@@ -177,26 +196,20 @@ public class Gioco {
 		return this.miaGriglia;
 	}	
 	public List<Scudo> getScudi(){
-		/*List<Scudo> lista = this.scudi;
-		return lista;*/
 		return this.scudi;
 	}
 	public StatoGioco getStato() {
 		return this.stato;
 	}
 	public List<ProiettileNemico> getSpariNemici(){
-		/*List<ProiettileNemico> lista = this.spariNemico;
-		return lista;*/
 		return this.spariNemico;
 	}	
 	public List<ProiettileGiocatore> getSpariGiocatore(){
-		/*List<ProiettileGiocatore> lista = this.spariGiocatore;
-		return lista;*/
 		return this.spariGiocatore;
 	}
 	
 	
 	public void incrementaPunteggio(double incremento) {
-		this.punteggio+=incremento;
+		this.punteggio+= (int)incremento;
 	}
 }

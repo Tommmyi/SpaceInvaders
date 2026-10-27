@@ -46,9 +46,9 @@ public class OggettoDiGioco {
 		double questoY2 = this.posizione.getY()+this.altezza;
 		
 		double altroX1 = ogg.posizione.getX();
-		double altroX2 = ogg.posizione.getX()+this.larghezza;
+		double altroX2 = ogg.posizione.getX()+ogg.larghezza;
 		double altroY1 = ogg.posizione.getY();
-		double altroY2 = ogg.posizione.getY()+this.altezza;
+		double altroY2 = ogg.posizione.getY()+ogg.altezza;
 		
 		if (questoX2 < altroX1 || // Questo è completamente a sinistra di altro
 		        questoX1 > altroX2 || // Questo è completamente a destra di altro

@@ -2,7 +2,7 @@ package model;
 
 public class ProiettileGiocatore extends Proiettile{
 	
-	public static final double VELOCITA_PROIETTILE_GIOCATORE = 5;
+	private static final double VELOCITA_PROIETTILE_GIOCATORE = 8;
 	public static final double LARGHEZZA = 6;
     public static final double ALTEZZA = 16;
 	

@@ -6,8 +6,6 @@ public enum TipoAlieno {
 	TIPO_3(20, 2);	//con scudo
 	
 	private double punti;
-	/*private double larghezza;
-	private double altezza;*/
 	private int vita;
 	
 	private TipoAlieno(double punti, int vita) {

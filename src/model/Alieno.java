@@ -6,7 +6,7 @@ public class Alieno extends OggettoDiGioco{
 	public static final double ALTEZZA_ALIENO = 30;
 	
 	private TipoAlieno tipo;	
-	private int vitaAlieno;		//
+	private int vitaAlieno;	
 
 	public Alieno(Punto2D posizione, TipoAlieno tipo) {
 		super(posizione, LARGHEZZA_ALIENO, ALTEZZA_ALIENO);
@@ -28,19 +28,21 @@ public class Alieno extends OggettoDiGioco{
 	public TipoAlieno getTipo() {
 		return this.tipo;
 	}
+	public int getVitaAlieno() {
+		return vitaAlieno;
+	}	
 	
 	public void sposta(double spostamentoX, double spostamentoY) {
 		this.setPosizione(new Punto2D(this.getPosizione().getX()+spostamentoX, this.getPosizione().getY()+spostamentoY));
 	}
 	
 	public boolean puoSparare() {				
-		if(this.tipo == TipoAlieno.TIPO_2 && this.getStatoVita())
-			return true;
-		return false;		
+		return this.tipo == TipoAlieno.TIPO_2 && this.getStatoVita();		
 	}
 	
 	public ProiettileNemico spara(double velocita) {		
-		Punto2D puntoProiettile = new Punto2D(this.getPosizione().getX()/2, this.getPosizione().getY());
-		return new ProiettileNemico(puntoProiettile, velocita);		
-	}	
+		double xProiettile = this.getPosizione().getX() + (this.getLarghezza() - ProiettileNemico.LARGHEZZA)/2;
+		double yProiettile = this.getPosizione().getY() + this.getAltezza();
+		return new ProiettileNemico(new Punto2D(xProiettile, yProiettile), velocita);	
+	}
 }
