@@ -2,8 +2,8 @@ package model;
 
 public class ProiettileNemico extends Proiettile{
 	
-	private static final double LARGHEZZA = 6;
-    private static final double ALTEZZA = 16;
+	public static final double LARGHEZZA = 6;
+    public static final double ALTEZZA = 16;
 	
 	public ProiettileNemico(Punto2D posizione, double velocita) {
 		super(posizione, LARGHEZZA, ALTEZZA, velocita);

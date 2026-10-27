@@ -2,7 +2,7 @@ package model;
 
 public class Scudo extends OggettoDiGioco{
 	
-	public static final double Y_SCUDO = 130;
+	public static final double Y_SCUDO = Gioco.ALTEZZA_CAMPO-130;
 	
 	public static final double LARGHEZZA = 75;
 	public static final double ALTEZZA = 40;
@@ -23,5 +23,8 @@ public class Scudo extends OggettoDiGioco{
 	public void azzeraVitaScudo() {
 		this.vitaScudo = 0;
 		this.distruggi();
+	}
+	public double getVitaScudo() {
+		return vitaScudo;
 	}
 }

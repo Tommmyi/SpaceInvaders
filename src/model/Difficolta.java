@@ -2,12 +2,12 @@ package model;
 
 public enum Difficolta {
 	
-	FACILE(0.5, 1),
-	NORMALE(1, 1),
-	DIFFICILE(1.5, 1);
+	FACILE(0.5, 2),
+	NORMALE(1, 3),
+	DIFFICILE(1.5, 4);
 	
 	private final double frequenzaFuocoNemici;
-	private double velocitaProiettiliNemici;
+	private final double velocitaProiettiliNemici;
 	
 	private Difficolta(double frequenzaFuocoNemici, double velocitaProiettiliNemici) {
 		this.frequenzaFuocoNemici = frequenzaFuocoNemici;
