@@ -17,7 +17,7 @@ public class PannelloFine extends JPanel{
 	 private final JLabel esito = new JLabel("", SwingConstants.CENTER);
 	 private final JLabel punti = new JLabel("", SwingConstants.CENTER);
 	 private final JLabel record = new JLabel("", SwingConstants.CENTER);
-	 private final JButton riprova = new JButton("Torna al menu");
+	 private final JButton riprova = new BottoneGioco("Torna al menu", Color.WHITE, 18);
 	 	
 	 public PannelloFine() {
 		 setPreferredSize(new Dimension(800, 600));
