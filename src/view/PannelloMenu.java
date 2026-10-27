@@ -14,7 +14,7 @@ import javax.swing.SwingConstants;
 
 public class PannelloMenu extends JPanel{
 
-	private final JButton gioca = new JButton("GIOCA");
+	private final JButton gioca = new BottoneGioco("GIOCA", Color.WHITE, 24);
 	
 	public PannelloMenu() {
 		
@@ -27,7 +27,7 @@ public class PannelloMenu extends JPanel{
         
 		//Creo la scritta del titolo:
         JLabel titolo = new JLabel("SPACE INVADERS", SwingConstants.CENTER);
-        titolo.setForeground(Color.WHITE);
+        titolo.setForeground(new Color(80, 220, 100));
         titolo.setFont(new Font("Monospaced", Font.BOLD, 36)); // Carattere stile retro arcade
         
         sezioneCentrale.add(titolo);
