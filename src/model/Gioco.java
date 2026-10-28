@@ -13,7 +13,7 @@ public class Gioco {
     private static final int TICK_FRA_SPARI_GIOCATORE = 20;
     
     private static final double TICK_FRA_SPARI = 60;	//Num di tick fra lo uno sparo di un alieno all'altro
-    private static final int NUM_SCUDI = 4;
+    public static final int NUM_SCUDI = 4;
  
 
     private int ondate;
