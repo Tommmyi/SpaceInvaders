@@ -11,7 +11,7 @@ import model.*;
 class GiocatoreTest {
 
 	private static final double DELTA = 1e-9;
-	private static final double VELOCITA = TestUtil.costante(Giocatore.class, "VELOCITA");
+	private static final double VELOCITA = Giocatore.VELOCITA;
 	private Giocatore giocatore;
 
 	@BeforeEach

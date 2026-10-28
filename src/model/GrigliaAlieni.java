@@ -6,12 +6,12 @@ import java.util.Random;
 
 public class GrigliaAlieni extends OggettoDiGioco{
 
-	private static final int RIGHE = 5;
-	private static final int COLONNE = 11;
+	public static final int RIGHE = 5;
+	public static final int COLONNE = 11;
 
 	private static final double VELOCITA_PARTENZA=1;		//velocità di partenza degli alieni nella griglia (pixel per tick)
 	private static final double INCREMENTO_VELOCITA=0.5;	//velocità aggiunta ad ogni nuova ondata
-	private static final double VELOCITA_Y=20;			//velocità costante con cui gli alieni scendono ogni volta che raggiungono il bordo
+	public static final double VELOCITA_Y=20;			//velocità costante con cui gli alieni scendono ogni volta che raggiungono il bordo
 	private static final double SPAZIO_X=20;			//spazio che separa gli alieni fra di loro sull'asse delle x
 	private static final double SPAZIO_Y=15;			//spazio che separa gli alieni fra di loro sull'asse delle y
 
@@ -147,4 +147,13 @@ public class GrigliaAlieni extends OggettoDiGioco{
 	public List<List<Alieno>> getGriglia(){
 		return this.griglia;
 	}
+
+	public Direzione getDirezione() {
+		return direzione;
+	}
+
+	public double getVelocita() {
+		return velocita;
+	}
+	
 }
