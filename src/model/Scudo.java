@@ -6,7 +6,7 @@ public class Scudo extends OggettoDiGioco{
 	
 	public static final double LARGHEZZA = 75;
 	public static final double ALTEZZA = 40;
-	private static final double RESISTENZA = 10.0;
+	public static final double RESISTENZA = 10.0;
 	
 	private double vitaScudo ;
 	
