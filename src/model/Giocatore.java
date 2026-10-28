@@ -5,7 +5,7 @@ public class Giocatore extends OggettoDiGioco {
 	public static final double LARGHEZZA_GIOCATORE = 40;
 	public static final double ALTEZZA = 30;
 	
-	private static final double VELOCITA = 5;	
+	public static final double VELOCITA = 5;	
     private int vite;
     
     public Giocatore(Punto2D posizione, int numVite) {
